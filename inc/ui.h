@@ -43,6 +43,7 @@ typedef struct {
         bool config_secondary;
 
         bool init;
+        bool run_loop;
 
         pane_t apps;
         pane_t creds;
@@ -51,7 +52,7 @@ typedef struct {
         int scroll_offset;
 
         // captured key code
-        char key;
+        int key;
 
         // terminal behavior
         tui_bhv_t behavior;

@@ -17,6 +17,9 @@ int main(void)
                 return -1;
         }
 
+        if (main_loop(&tui) != 0)
+                fprintf(stderr, "Error: Could not run main event loop\n");
+
         if (cleanup(&tui) != 0) {
                 fprintf(stderr, "Error: failed to cleanup tui\n");
                 return -1;
