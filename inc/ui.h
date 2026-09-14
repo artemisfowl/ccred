@@ -26,8 +26,11 @@ typedef struct {
 
 typedef struct {
         WINDOW *pane;
+
         // NOTE: Cols refer to x(width) and rows refer to y(height)
-        int pane_cols, pane_rows;
+        int pane_width, pane_height;
+        // NOTE: These are the draw positions on the terminal screen
+        int pane_start_pos_x, pane_start_pos_y;
 } pane_t;
 
 typedef struct {
@@ -61,6 +64,18 @@ typedef struct {
  * @return Returns 0 on success, -1 on failure.
  */
 int initialize(tui_t *tui);
+
+/**
+ * @brief main_loop(...) to run the main loop for showing the window.
+ *
+ * This function will be showing the windows as well as responsible for
+ * handling the events being triggered.
+ *
+ * @param tui - pointer to the struct of type tui_t
+ *
+ * @return Returns 0 on successful exit, -1 on any failure.
+ */
+int main_loop(tui_t *tui);
 
 /**
  * @brief cleanup(...) to cleanup the resources used for the ncurses session.

@@ -53,6 +53,7 @@ int initialize(tui_t *tui)
                 tui->init = false;
                 return -1;
         }
+        tui->init = true;
 
         // NOTE: None of the configurations are present, use default settings
         if (!tui->config_primary && !tui->config_secondary) {
@@ -80,13 +81,43 @@ int initialize(tui_t *tui)
 
         getmaxyx(stdscr, tui->scr_y, tui->scr_x);
 
-        // FIXME: Add the code for setting up the panes
-        tui->apps.pane = newwin(tui->scr_y, tui->scr_x / 2, 0, 0);
-        tui->creds.pane = newwin(tui->scr_y,
-                        tui->scr_x - (tui->scr_x / 2), 0, 0);
+        // FIXME: Add the code for checking the newwin(...) calls
 
-        tui->init = true;
+        // NOTE: This is for the application pane
+        tui->apps.pane_height = tui->scr_y;
+        tui->apps.pane_width = tui->scr_x / 2;
+        tui->apps.pane_start_pos_y = 0;
+        tui->apps.pane_start_pos_x = 0;
+        tui->apps.pane = newwin(
+                        tui->apps.pane_height, tui->apps.pane_width,
+                        tui->apps.pane_start_pos_y, tui->apps.pane_start_pos_x);
+        if (!tui->apps.pane) {
+                fprintf(stderr, "Error: Could not create application window\n");
+                return -1;
+        }
 
+
+        // NOTE: This is for the credentials pane
+        tui->creds.pane_height = tui->scr_y;
+        tui->creds.pane_width = tui->scr_x - tui->apps.pane_width;
+        tui->creds.pane_start_pos_y = 0;
+        tui->creds.pane_start_pos_x = tui->apps.pane_width;
+        tui->creds.pane = newwin(
+                        tui->creds.pane_height, tui->creds.pane_width,
+                        tui->creds.pane_start_pos_y,
+                        tui->creds.pane_start_pos_x);
+
+        return 0;
+}
+
+int main_loop(tui_t *tui)
+{
+        if (!tui) {
+                fprintf(stderr, "Error: TUI container instance empty\n");
+                return -1;
+        }
+        // FIXME: Add the code for running the main loop as well as handling
+        // the events.
         return 0;
 }
 
