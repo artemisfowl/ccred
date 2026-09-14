@@ -2,6 +2,7 @@
 #define UI_H
 
 #include <stdbool.h>
+#include <ncurses.h>
 
 // TUI Configuration filepath
 #ifndef CONFIG_PRIMARY
@@ -24,6 +25,12 @@ typedef struct {
 } tui_bhv_t;
 
 typedef struct {
+        WINDOW *pane;
+        // NOTE: Cols refer to x(width) and rows refer to y(height)
+        int pane_cols, pane_rows;
+} pane_t;
+
+typedef struct {
         // Actual screen columns and rows.
         int scr_x; // cols
         int scr_y; // rows
@@ -32,6 +39,9 @@ typedef struct {
         bool config_secondary;
 
         bool init;
+
+        pane_t apps;
+        pane_t creds;
 
         // terminal behavior
         tui_bhv_t behavior;

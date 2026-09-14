@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
-#include <ncurses.h>
 
 /**
  * @brief chkinit(void) to check if initialization succeeded or not.
@@ -80,6 +79,12 @@ int initialize(tui_t *tui)
         }
 
         getmaxyx(stdscr, tui->scr_y, tui->scr_x);
+
+        // FIXME: Add the code for setting up the panes
+        tui->apps.pane = newwin(tui->scr_y, tui->scr_x / 2, 0, 0);
+        tui->creds.pane = newwin(tui->scr_y,
+                        tui->scr_x - (tui->scr_x / 2), 0, 0);
+
         tui->init = true;
 
         return 0;
@@ -92,6 +97,9 @@ int cleanup(tui_t *tui) {
         }
 
         if (tui->init) {
+                // FIXME: Add the checks for the delwin(...) call
+                delwin(tui->apps.pane);
+                delwin(tui->creds.pane);
                 if (endwin() != OK) {
                         fprintf(
                                 stderr,
