@@ -29,6 +29,7 @@ typedef struct {
 
         // NOTE: Cols refer to x(width) and rows refer to y(height)
         int pane_width, pane_height;
+
         // NOTE: These are the draw positions on the terminal screen
         int pane_start_pos_x, pane_start_pos_y;
 } pane_t;
@@ -45,6 +46,12 @@ typedef struct {
 
         pane_t apps;
         pane_t creds;
+
+        // scroll offset
+        int scroll_offset;
+
+        // captured key code
+        char key;
 
         // terminal behavior
         tui_bhv_t behavior;

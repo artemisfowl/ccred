@@ -81,8 +81,6 @@ int initialize(tui_t *tui)
 
         getmaxyx(stdscr, tui->scr_y, tui->scr_x);
 
-        // FIXME: Add the code for checking the newwin(...) calls
-
         // NOTE: This is for the application pane
         tui->apps.pane_height = tui->scr_y;
         tui->apps.pane_width = tui->scr_x / 2;
@@ -106,6 +104,13 @@ int initialize(tui_t *tui)
                         tui->creds.pane_height, tui->creds.pane_width,
                         tui->creds.pane_start_pos_y,
                         tui->creds.pane_start_pos_x);
+        if (!tui->creds.pane) {
+                fprintf(stderr, "Error: Could not create credentials window\n");
+                return -1;
+        }
+
+        tui->scroll_offset = 0;
+        tui->key = '\0';
 
         return 0;
 }
