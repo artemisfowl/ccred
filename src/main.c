@@ -8,7 +8,7 @@ int main(void)
         if (ui_initialize(&tui) != 0) {
                 fprintf(stderr, "Error: initializing text user interface\n");
                 if (tui.init) {
-                        if (cleanup(&tui) != 0)
+                        if (ui_cleanup(&tui) != 0)
                                 fprintf(
                                         stderr,
                                         "Error: failed to cleanup tui\n"
