@@ -68,7 +68,7 @@ typedef struct {
  *
  * @return Returns 0 on success, -1 on failure.
  */
-int initialize(tui_t *tui);
+int ui_initialize(tui_t *tui);
 
 /**
  * @brief main_loop(...) to run the main loop for showing the window.
@@ -80,7 +80,7 @@ int initialize(tui_t *tui);
  *
  * @return Returns 0 on successful exit, -1 on any failure.
  */
-int main_loop(tui_t *tui);
+int ui_main_loop(tui_t *tui);
 
 /**
  * @brief cleanup(...) to cleanup the resources used for the ncurses session.
@@ -88,6 +88,6 @@ int main_loop(tui_t *tui);
  * This function is responsible to for cleaning up all the resources that are
  * being changed as part of the
  */
-int cleanup(tui_t *tui);
+int ui_cleanup(tui_t *tui);
 
 #endif

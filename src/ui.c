@@ -15,12 +15,12 @@
  *
  * @return Returns -1 if not initialized, 0 if initialization was successful.
  */
-static int chkinit(void)
+static int ui_chkinit(void)
 {
         return stdscr ? 0 : -1;
 }
 
-int initialize(tui_t *tui)
+int ui_initialize(tui_t *tui)
 {
         if (!tui) {
                 fprintf(stderr, "Error: TUI container instance not provided\n");
@@ -49,7 +49,7 @@ int initialize(tui_t *tui)
         }
 
         initscr();
-        if (chkinit() != 0) {
+        if (ui_chkinit() != 0) {
                 fprintf(stderr, "Error: Failed to initialize ncurses\n");
                 tui->init = false;
                 return -1;
@@ -166,7 +166,7 @@ int main_loop(tui_t *tui)
         return 0;
 }
 
-int cleanup(tui_t *tui) {
+int ui_cleanup(tui_t *tui) {
         if (!tui) {
                 fprintf(stderr, "Error: TUI container instance empty\n");
                 return -1;
