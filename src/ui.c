@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -96,6 +95,11 @@ int ui_initialize(tui_t *tui)
                 return -1;
         }
 
+        // init the items properly
+        memset(tui->items, '\0', PATH_MAX);
+        for (size_t i = 0; i < PATH_MAX; i++)
+                memset(tui->items[i], '\0', PATH_MAX);
+
 
         // NOTE: This is for the credentials pane
         tui->creds.pane_height = tui->scr_y - 2;
@@ -125,7 +129,7 @@ int ui_initialize(tui_t *tui)
  *
  * @param tui - pointer to the struct of type tui_t
  */
-static void tui_refresh(tui_t *tui)
+static void ui_tui_refresh(tui_t *tui)
 {
         if (!tui) {
                 fprintf(stderr, "Error: TUI container instance empty\n");
@@ -136,7 +140,35 @@ static void tui_refresh(tui_t *tui)
         wrefresh(tui->creds.pane);
 }
 
-int main_loop(tui_t *tui)
+/**
+ * @brief ui_fill_dummy_list(...) for updating the items.
+ *
+ * This function will be loading the items that will be listed in the left
+ * pane.
+ *
+ * @param tui - pointer to the struct of type tui_t
+ */
+static void ui_fill_dummy_list(tui_t *tui)
+{
+        if (!tui) {
+                fprintf(stderr, "Error: TUI container instance empty\n");
+                return;
+        }
+
+        // Store the dummy data in the dummy list
+        for (size_t i = 0; i < PATH_MAX; i++)
+                sprintf(tui->items[i], "List Item: %ld", i);
+
+        int visible_rows = tui->creds.pane_height - 2;
+        for (int i = 0; i < visible_rows; i++) {
+                int item_index = tui->scroll_offset + i;
+                if (item_index < visible_rows)
+                        mvwprintw(tui->apps.pane, i+1, 2, "%s",
+                                        tui->items[item_index]);
+        }
+}
+
+int ui_main_loop(tui_t *tui)
 {
         if (!tui) {
                 fprintf(stderr, "Error: TUI container instance empty\n");
@@ -150,13 +182,24 @@ int main_loop(tui_t *tui)
                 box(tui->apps.pane, 0, 0);
                 box(tui->creds.pane, 0, 0);
 
-                tui_refresh(tui);
+                ui_fill_dummy_list(tui);
+                ui_tui_refresh(tui);
 
                 tui->key = getch();
                 if (tui->key != ERR) {
                         switch (tui->key) {
                                 case 'q':
                                         tui->run_loop = false;
+                                        break;
+                                case KEY_DOWN:
+                                        // FIXME: Add the code here for
+                                        // handling going down the list of
+                                        // options
+                                        break;
+                                case KEY_UP:
+                                        // FIXME: Add the code here for
+                                        // handling going up the list of
+                                        // options
                                         break;
                         }
                 }

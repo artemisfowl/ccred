@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <ncurses.h>
+#include <limits.h>
 
 // TUI Configuration filepath
 #ifndef CONFIG_PRIMARY
@@ -50,6 +51,8 @@ typedef struct {
         int scroll_offset;      //scroll offset
         int key;                // captured key code
         int cpane;              // current pane
+
+        char items[PATH_MAX][PATH_MAX];
 
         // terminal behavior
         tui_bhv_t behavior;
