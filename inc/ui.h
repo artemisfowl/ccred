@@ -41,18 +41,15 @@ typedef struct {
 
         bool config_primary;
         bool config_secondary;
-
         bool init;
         bool run_loop;
 
         pane_t apps;
         pane_t creds;
 
-        // scroll offset
-        int scroll_offset;
-
-        // captured key code
-        int key;
+        int scroll_offset;      //scroll offset
+        int key;                // captured key code
+        int cpane;              // current pane
 
         // terminal behavior
         tui_bhv_t behavior;

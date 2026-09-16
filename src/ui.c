@@ -85,7 +85,7 @@ int initialize(tui_t *tui)
 
         // NOTE: This is for the application pane
         tui->apps.pane_height = tui->scr_y - 2;
-        tui->apps.pane_width = tui->scr_x / 2;
+        tui->apps.pane_width = (tui->scr_x * 35) / 200;
         tui->apps.pane_start_pos_y = 0;
         tui->apps.pane_start_pos_x = 0;
         tui->apps.pane = newwin(
